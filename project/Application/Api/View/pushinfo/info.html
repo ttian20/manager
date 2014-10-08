@@ -1,0 +1,25 @@
+<div>
+   <h3>商家推送信息</h3>
+   <dl class="dl-horizontal">
+       <dt>推送信息标题:</dt>
+       <dd>{$pushinfo.title}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>推送信息简介:</dt>
+       <dd>{$pushinfo.summary}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>推送信息详情:</dt>
+       <dd>{$pushinfo.content}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>创建时间:</dt>
+       <dd>{$pushinfo.detail_address}</dd>
+   </dl>
+
+   <dl class="dl-horizontal">
+       <dt></dt>
+       <dd><a href="/index.php/mer/pushinfo/edit?id={$pushinfo.id}" class="btn">修改信息</a></dd>
+   </dl>
+   
+</div>

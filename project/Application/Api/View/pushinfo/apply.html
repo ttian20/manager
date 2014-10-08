@@ -1,0 +1,50 @@
+	<form action="__URL__/add"  method="post" enctype="multipart/form-data" id="merchant">
+	  <table width="607" height="424" align="center">
+        <th height="55"><H3>创建推送信息</H3></th>
+        <input type="hidden" name="merchant_id" value="{$merchant.merchant_id}" />
+        <input type="hidden" name="merchant_name" value="{$merchant.merchant_name}" />
+	  <tr>
+	  <td><table height="273" align="center">
+        <tr>
+	      <td width="150" align="right">推送信息标题：</td>
+	      <td width="404" align="left"><input type="text" class="required" name="title"></td>
+	    </tr>
+        <tr>
+	      <td align="right">推送信息简介:</td>
+          <td align="left"><textarea name="summary" cols="20" rows="5"></textarea></td>
+	    </tr>
+        <tr>
+	      <td align="right">推送信息详情:</td>
+          <td align="left"><textarea name="content" cols="20" rows="5"></textarea></td>
+	    </tr>
+	    <tr>
+	      <td align="right">验证码:</td>
+	      <td align="left"><input type="text" name="verify" >
+	        <img id="verify" alt="验证码" onClick="show()" src="__URL__/verify"><a href="javascript:show()">看不清楚</a></td>
+	      </tr>
+	    <tr>
+	      <td colspan="2" align="center"><input type="submit" class="btn" id="mer_btn" value="提交"></td>
+          </tr>
+	    </table></td>
+	  </tr>
+	  </table>
+</form>
+<script>
+	function show(){
+		$("#verify").attr('src',"__URL__/verify/random"+Math.random());
+	}
+
+seajs.use(['j.validate','j.area'], function(){
+  var form = $('#merchant');
+  form.validate({
+    rules: {
+
+    },
+    submitHandler: function(form){
+        form.submit();
+    }
+  });
+
+});
+
+</script>

@@ -1,0 +1,231 @@
+<html>
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<script type="text/javascript" src="<{$SITE}>js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="<{$SITE}>js/select.js"></script>
+<!-- script type="text/javascript" src="../js/ajax-min.js"></script -->
+
+<style type="text/css">
+td,input,select,textarea {font-size:14px;font-family:'Microsoft Yahei',Tahoma;}
+.method td {color:#0000FF;}
+</style>
+
+<script type="text/javascript">
+function doa(){
+    var dataobj = {};
+    dataobj.appkey = $('#appkey').val();
+    dataobj.appsecret = $('#appsecret').val();
+    dataobj.sign = $('#sign').val();
+    
+    var arr_params = new Array;
+    var arr_method = eval('api_'+$('#api').val());
+    for (var i=0;i<arr_method.length;i++){
+        if (arr_method[i].name==$('#method').val()){
+            arr_params = arr_method[i].params;
+            break;
+        }
+    }
+    
+    for (var j=0;j<arr_params.length;j++){
+        var _tmp = 'dataobj.'+ arr_params[j].name + ' = $("#' + arr_params[j].name + '").val();';
+        eval(_tmp);
+    }
+    
+    $.ajax({
+        type:'GET',
+        dataType:'html',
+        url:$('#request_url').val(),
+        cache:false,
+        data:dataobj,
+        success:function(l){
+            $('#result_div_pre').val(l);
+        },
+        error:function(e){
+            alert('error_occurred');
+        }
+    });
+}
+
+function sign(){
+    if ($('#method').val() == '') {
+        alert('选择API');
+        return false;
+    }
+    var dataobj = {};
+    dataobj.appkey = $('#appkey').val();
+    dataobj.appsecret = $('#appsecret').val();
+    dataobj.method = $('#method').val();
+    //dataobj.sign = $('#sign').val();
+    
+    var arr_params = new Array;
+    var arr_method = eval('api_'+$('#api').val());
+    for (var i=0;i<arr_method.length;i++){
+        if (arr_method[i].name==$('#method').val()){
+            arr_params = arr_method[i].params;
+            break;
+        }
+    }
+    
+    for (var j=0;j<arr_params.length;j++){
+        var _tmp = 'dataobj.'+ arr_params[j].name + ' = $("#' + arr_params[j].name + '").val();';
+        eval(_tmp);
+    }
+
+    $.ajax({
+        type:'GET',
+        dataType:'json',
+        url:'<{$SITE}>api/test/sign',
+        cache:false,
+        data:dataobj,
+        success:function(l){
+            $('#sign').val(l.sign);
+            $('#request_url').val(l.url) ;
+        },
+        error:function(e){
+            alert('error_occurred');
+        }
+    });
+}
+
+var api = <{$encodedApi}>;
+for (var i = 0; i < api.length; i++) {
+    eval("var api_" + api[i].name + " = " + api[i].settings); 
+}
+<{*
+<?php
+echo "var api=".json_encode($api).";"."\r\n";
+while (list($k, $v) = each($api)) {
+    $__k = $v['name'];
+    $_k = "api_$__k";
+    echo "var $_k=".json_encode($$_k).";"."\r\n";
+}
+?>
+*}>
+
+$(document).ready(function(){ 
+    
+    $("#tb tr").eq(0).hide();
+    
+    $('#api').addOption('选择API类别','');
+    for (var i=0; i<api.length; i++){
+        $('#api').addOption(api[i].title,api[i].name);
+    }
+    
+    $('#method').addOption('选择API方法','');
+
+    $('#api').change(
+        function(){
+            $('#method').clearAll();
+            var arr_method = eval('api_'+$('#api').val());
+            $('#method').addOption('选择API方法','');
+            for (var i=0;i<arr_method.length;i++){
+                $('#method').addOption(arr_method[i].name + '  ' + arr_method[i].title,arr_method[i].name);
+            }
+            $("#tb .method").remove();
+        }
+    );
+
+    $('#method').change(
+        function(){
+            var arr_params = new Array;
+            var arr_method = eval('api_'+$('#api').val());
+            for (var i=0;i<arr_method.length;i++){
+                if (arr_method[i].name==$('#method').val()){
+                    arr_params = arr_method[i].params;
+                    break;
+                }
+            }
+            try{
+            
+            $("#tb .method").remove();
+            for (var j=0;j<arr_params.length;j++){
+                var tr = $("#tb tr").eq(0).clone();
+                tr.addClass('method');
+                tr.find("td").get(0).innerHTML = arr_params[j].name;
+                switch (arr_params[j].type){
+                case 'boolean':
+                    tr.find("td").get(1).innerHTML ='<select style="width:300px;" id="'+arr_params[j].name+'" name="'+arr_params[j].name+'"><option value="">请选择</option><option value="1">是</option><option value="0">否</option></select><span style="font-size:12px;margin-left:10px;">'+arr_params[j].title+'</span>';
+                    break;
+                case 'select':
+                    var _s = '<select style="width:300px;" id="'+arr_params[j].name+'" name="'+arr_params[j].name+'"><option value="">请选择</option>';
+                    var _o = arr_params[j].optionlist.split(',');
+                    for (var i=0;i<_o.length;i++){
+                        var _ov = _o[i].split(':');
+                        _s += '<option value="'+_ov[0]+'">'+_o[i]+'</option>';
+                    }
+                    _s += '</select><span style="font-size:12px;margin-left:10px;">'+arr_params[j].title+'</span>';
+                    tr.find("td").get(1).innerHTML = _s;
+                    break;
+                default:
+                    tr.find("td").get(1).innerHTML ='<input style="width:300px;" type="text" id="'+arr_params[j].name+'" name="'+arr_params[j].name+'"><span style="font-size:12px;margin-left:10px;">'+arr_params[j].title+'</span>';
+                }
+                tr.show();
+                tr.appendTo("#tb");
+            }
+            
+            }catch(e){;}
+        }   
+    );
+});
+</script>
+</head>
+<BODY>
+<h1 style="font-family:'Microsoft Yahei',Tahoma;">
+API 测试工具
+</h1>
+<table width="80%" cellpadding=4 cellspacing=1>
+<tr>
+    <td valign="top" width="50%">
+        <table style="border:0" width="80%" cellpadding=4 cellspacing=1 id="tb">
+            <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <TR>
+                <TD>参数名称</TD>
+                <TD>参数值</TD>
+            </TR>
+            <TR>
+                <TD width="200px;">appkey</TD>
+                <TD><INPUT TYPE="text" NAME="" id="appkey" value="" style="width:300px;"></TD>
+            </TR>
+            <TR>
+                <TD width="200px;">appsecret</TD>
+                <TD><INPUT TYPE="text" NAME="" id="appsecret" value="" style="width:300px;"></TD>
+            </TR>
+            <TR>
+                <TD>API类别</TD>
+                <TD>
+                    <select id="api" name="api" style="width:300px;">
+                    </select>
+                </TD>
+            </TR>
+            <TR>
+                <TD>API方法</TD>
+                <TD>
+                    <select id="method" name="method">
+                    </select>
+                </TD>
+            </TR>
+            <TR>
+                <TD>sign</TD>
+                <TD><INPUT TYPE="text" NAME="" id="sign" value="" style="width:300px;"></TD>
+            </TR>
+        </table>
+        <p>
+            <INPUT type="button" value="获取SIGN" onclick="sign();">
+            <INPUT type="button" value="调用接口" onclick="doa();">
+        </p>
+    </td>
+    <td valign="top" align="left" width="50%">
+        <table style="border:0" width="80%" cellpadding=4 cellspacing=1>
+          <tr><td>请求参数:</td></tr>
+          <tr><td><textarea id="request_url" style="width:90%;height:100px;overflow-y:auto;border:1px solid #ccc;"></textarea></td></tr>
+          <tr><td>返回结果:</td></tr>
+          <tr><td><textarea id="result_div_pre" style="width:90%;height:300px;overflow-y:auto;border:1px solid #ccc;"></textarea></td></tr>
+        </table>
+    </td>
+</tr>
+
+
+ </body>
+
+</html>
+

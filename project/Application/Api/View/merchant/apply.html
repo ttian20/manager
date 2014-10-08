@@ -1,0 +1,128 @@
+	<form action="__URL__/add"  method="post" enctype="multipart/form-data" id="merchant">
+	  <table width="607" height="424" align="center">
+        <th height="95"><H2>商家申请入住</H2></th>
+        <input type="hidden" name="member_id" value="{$member_id}" />
+	  <tr>
+	  <td><table height="273" align="center">
+        <tr>
+	      <td width="150" align="right">商户名称：</td>
+	      <td width="404" align="left"><input type="text" class="required" name="merchant_name"></td>
+	    </tr>
+	    <tr>
+	      <td width="150" align="right">联系人真实姓名：</td>
+	      <td width="404" align="left"><input type="text" class="required" name="name"></td>
+	    </tr>
+	    <tr>
+	      <td align="right">商户手机：</td>
+	      <td align="left"><input type="text" name="mobile" class="required mobile"></td>
+	    </tr>
+	    <tr>
+	      <td align="right">商户邮件:</td>
+	      <td align="left"><input type="text" name="email" class="required email"></td>
+	      </tr>
+	    <tr>
+	      <td align="right">其他联系方式:</td>
+	      <td align="left"><input type="text" name="other_contact"></td>
+	    </tr>
+        <tr>
+	      <td width="74" align="right">城市：</td>
+          <td width="304" align="left">
+              <div id="J_areas">
+                  <select class="mod-area-sel required" id="prov">
+                      <option id='1'>北京</option>
+                  </select>
+                  <select class="mod-area-sel required" id="city">
+                      <option value="2">北京市</option>
+                  </select>
+                  <input type="hidden" name="city" value="" id="J_areasHidden">
+              </div>
+          </td>
+	    </tr>
+	    <tr>
+	      <td width="74" align="right">商圈名称：</td>
+	      <td width="304" align="left"><input type="text" name="buss_area_name" class="required"></td>
+	    </tr>
+	    <tr>
+	      <td height="70" align="right">区域名称：</td>
+	      <td align="left"><input type="text" name="area_name"></td>
+	      </tr>
+	    <tr>
+	      <td align="right">详细地址:</td>
+	      <td align="left"><input type="text" name="detail_address" class="required"></td>
+	      </tr>
+	    <tr>
+	      <td align="right">店铺电话:</td>
+	      <td align="left"><input type="text" name="store_telephone" class="required"></td>
+	    </tr>
+        <tr>
+	      <td width="74" align="right">产品类型：</td>
+	      <td width="304" align="left"><input type="text" name="product_type"></td>
+	    </tr>
+	    <tr>
+	      <td height="70" align="right">支付用户名：</td>
+	      <td align="left"><input type="text" name="pay_account" class="required"></td>
+	      </tr>
+	    <tr>
+	      <td align="right">支付方式:</td>
+	      <td align="left"><input type="text" name="pay_money_type"></td>
+	    </tr>
+        <tr>
+	      <td align="right">商家分类:</td>
+          <td align="left">
+              <select name="category_id">
+                  <option value="1">美容</option>
+                  <option value="2">美食</option>
+                  <option value="3">健身</option>
+              </select>
+          </td>
+	    </tr>
+	    <tr>
+	      <td align="right">商标:</td>
+	      <td align="left"><input type="file" name="logo"></td>
+	    </tr>
+        <tr>
+	      <td align="right">营业执照图片:</td>
+	      <td align="left"><input type="file" name="bus_ins_pic"></td>
+	    </tr>
+        <tr>
+	      <td align="right">商家描述:</td>
+          <td align="left"><textarea name="bus_ins_pic" cols="20" rows="5"></textarea></td>
+	    </tr>
+	    <tr>
+	      <td align="right">验证码:</td>
+	      <td align="left"><input type="text" name="verify" >
+	        <img id="verify" alt="验证码" onClick="show()" src="__URL__/verify"><a href="javascript:show()">看不清楚</a></td>
+	      </tr>
+	    <tr>
+	      <td colspan="2" align="center"><input type="submit" id="mer_btn" value="提交"></td>
+          </tr>
+	    </table></td>
+	  </tr>
+	  </table>
+</form>
+<script>
+	function show(){
+		$("#verify").attr('src',"__URL__/verify/random"+Math.random());
+	}
+
+seajs.use(['j.validate','j.area'], function(){
+  var form = $('#merchant');
+  var data = $('#J_areasHidden').val();
+
+  $('#J_areas').areas({
+      data: data
+  });
+
+  form.validate({
+    rules: {
+
+    },
+    submitHandler: function(form){
+        $('#J_areasHidden').val($('#prov').val() + '-' + $('#city').val());
+        form.submit();
+    }
+  });
+
+});
+
+</script>

@@ -1,0 +1,34 @@
+<div>
+    <h3>会员列表</h3>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>会员名称</th>
+            <th>会员积分</th>
+            <th>会员性别</th>
+            <th>会员邮箱</th>
+            <th>会员手机</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+       <foreach name="members" item="member" key="k">
+       <tr>
+           <td>{$k+1}</td>
+           <td>{$member.name}</td>
+           <td>{$member.score}</td>
+           <td>{$member.sex}</td>
+           <td>{$member.email}</td>
+           <td>{$member.mobile}</td>
+           <td>{$member.create_time}</td>
+           <td>
+               <a href="/index.php/mer/membermerchant/info?id={$member.id}">详情</a>&nbsp;
+               <a href="/index.php/mer/membermerchant/del?id={$member.id}">删除</a>&nbsp;
+           </td>
+       </tr>
+       </foreach>
+    </tbody>
+</table>

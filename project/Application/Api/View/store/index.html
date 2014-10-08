@@ -1,0 +1,39 @@
+<div>
+    <h3>所有店铺</h3><a href="/index.php/mer/store/ns">创建店铺</a>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>商店名称</th>
+            <th>门店电话</th>
+            <th>门店联系人</th>
+            <th>门店地址</th>
+            <th>店铺支付帐号</th>
+            <th>支付类型</th>
+            <th>是否总店</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+       <foreach name="stores" item="store" key="k">
+       <tr>
+           <td>{$k+1}</td>
+           <td>{$store.store_name}</td>
+           <td>{$store.store_telphones}</td>
+           <td>{$store.store_managers}</td>
+           <td>{$store.store_address}</td>
+           <td>{$store.payment_account}</td>
+           <td>{$store.payment_type}</td>
+           <td>{$store.main_store_id}</td>
+           <td>{$store.create_time}</td>
+           <td>
+               <a href="/index.php/mer/store/info?id={$store.store_id}">详情</a>&nbsp;
+               <a href="/index.php/mer/store/del?id={$store.store_id}">删除</a>&nbsp;
+               <a href="/index.php/mer/store/edit?id={$store.store_id}">修改</a>&nbsp;
+           </td>
+       </tr>
+       </foreach>
+    </tbody>
+</table>

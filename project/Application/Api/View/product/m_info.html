@@ -1,0 +1,41 @@
+<div>
+   <h3>卡片信息</h3>
+   <dl class="dl-horizontal">
+       <dt>卡片名称:</dt>
+       <dd>{$product.product_name}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>卡片类型:</dt>
+       <dd>{$product.product_type}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>使用门店:</dt>
+       <dd>{$product.store_id_list}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>卡片描述:</dt>
+       <dd>{$product.product_desc}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>卡片图片:</dt>
+       <dd>{$product.product_pic}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>结账类型:</dt>
+       <dd>{$store.payment_type}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>分店描述:</dt>
+       <dd>{$store.store_desc}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>创建时间:</dt>
+       <dd>{$store.create_time}</dd>
+   </dl>
+
+   <dl class="dl-horizontal">
+       <dt></dt>
+       <dd><a href="/index.php/mer/product/edit?id={$product.product_id}" class="btn">修改卡片信息</a></dd>
+   </dl>
+   
+</div>

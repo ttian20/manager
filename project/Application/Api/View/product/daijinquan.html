@@ -1,0 +1,107 @@
+	<form action="__URL__/add"  method="post" enctype="multipart/form-data" id="J_form">
+	  <table width="607" height="424" align="center">
+        <th height="95"><H2>创建会员卡</H2></th>
+        <input type="hidden" name="merchant_id" value="{$merchant_id}" />
+	  <tr>
+	  <td><table height="273" align="center">
+        <tr>
+	      <td width="150" align="right">产品名称：</td>
+	      <td width="404" align="left"><input type="text" class="required" name="product_name"></td>
+          <input type="hidden" name="product_type" value="{$product_type}">
+	    </tr>
+	    <tr>
+	      <td width="150" align="right">使用门店：</td>
+          <td width="404" align="left">
+              <select name="store_id_list">
+
+              </select>
+          </td>
+	    </tr>
+        <tr>
+	      <td align="right">产品描述:</td>
+          <td align="left"><textarea name="product_desc" cols="20" rows="5"></textarea></td>
+	    </tr>
+        <tr>
+	      <td align="right">产品图片:</td>
+	      <td align="left"><input type="file" name="logo"></td>
+	    </tr>
+	    <tr>
+	      <td align="right">产品数量：</td>
+	      <td align="left"><input type="text" name="product_count" value="0">0代表无显示</td>
+	    </tr>
+	    <tr>
+	      <td align="right">产品状态:</td>
+          <td align="left">
+              <select name="status">
+                  <option value='1'>上架</option>
+                  <option value='2'>下架</option>
+                  <option value='3'>禁用</option>
+                  <option value='4'>回收站</option>
+              </select>
+          </td>
+	    </tr>
+	    <tr>
+	      <td align="right">二维码图片:</td>
+	      <td align="left"><input type="text" name="qr_pic"></td>
+	    </tr>
+        <tr>
+	      <td align="right">产品使用说明:</td>
+          <td align="left"><textarea name="use_condition" cols="20" rows="5"></textarea></td>
+	    </tr>
+
+
+	    <tr>
+	      <td width="74" align="right">代金券面额：</td>
+	      <td width="304" align="left"><input type="text" name="original_price"></td>
+	    </tr>
+        <tr>
+	      <td align="right">销售价格：</td>
+	      <td align="left"><input type="text" name="sale_price"></td>
+	    </tr>
+	    <tr>
+	      <td align="right">是否支持未使用退款:</td>
+	      <td align="left"><input type="radio" name="refunds_no_use" value="0">不 <input type="radio" name="refunds_no_use" value="1">是</td>
+	    </tr>
+        <tr>
+	      <td align="right">是否支持过期退款:</td>
+	      <td align="left"><input type="radio" name="refunds_expired" value="0">不 <input type="radio" name="refunds_expired" value="1">是</td>
+	    </tr>
+        <tr>
+	      <td align="right">是否支持找零:</td>
+	      <td align="left"><input type="radio" name="is_repay" value="0">不 <input type="radio" name="is_repay" value="1">是</td>
+	    </tr>
+        <tr>
+	      <td align="right">是否一次使用完毕:</td>
+	      <td align="left"><input type="radio" name="one_time_user_completed" value="0">不 <input type="radio" name="one_time_user_completed" value="1">是</td>
+	    </tr>
+	    <tr>
+	      <td align="right">领取人数:</td>
+	      <td align="left"><input type="text" name="user_count" class="required"></td>
+	    </tr>
+        <tr>
+	      <td width="74" align="right">可领取次数：</td>
+	      <td width="304" align="left"><input type="text" name="user_get_times"></td>
+	    </tr>
+	    <tr>
+	      <td colspan="2" align="center"><input type="submit" id="mer_btn" value="提交"></td>
+        </tr>
+	    </table></td>
+	  </tr>
+	  </table>
+</form>
+
+<script>
+seajs.use(['j.validate','j.area'], function(){
+  var form = $('#J_form');
+  form.validate({
+    rules: {
+
+    },
+    submitHandler: function(form){
+        form.submit();
+    }
+  });
+
+});
+
+</script>

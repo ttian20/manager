@@ -1,0 +1,106 @@
+	<form action="__URL__/add"  method="post" enctype="multipart/form-data" id="J_form">
+	  <table width="607" height="424" align="center">
+        <th height="55"><H3>修改会员卡</H3></th>
+        <input type="hidden" name="merchant_id" value="{$product.merchant_id}" />
+        <input type="hidden" name="merchant_id" value="{$product.product_id}" />
+	  <tr>
+	  <td><table height="273" align="center">
+        <tr>
+	      <td width="150" align="right">产品名称：</td>
+          <td width="404" align="left"><input type="text" class="required" name="product_name" value="{$product.product_name}"></td>
+          <input type="hidden" name="product_type" value="{$product.product_type}">
+	    </tr>
+	    <tr>
+	      <td width="150" align="right">使用门店：</td>
+          <td width="404" align="left">
+              <select name="id_list[]" multiple>
+                  <foreach name="stores" item="st">
+                  <option value="{$st.store_id}">{$st.store_name}</option>
+                  </foreach>
+              </select>
+          </td>
+	    </tr>
+        <tr>
+	      <td align="right">产品描述:</td>
+          <td align="left"><textarea name="product_desc" cols="20" rows="5">{$product.product_desc}</textarea></td>
+	    </tr>
+        <tr>
+	      <td align="right">产品图片:</td>
+	      <td align="left"><input type="file" name="product_pic"></td>
+	    </tr>
+	    <tr>
+	      <td align="right">产品数量：</td>
+          <td align="left"><input type="text" name="product_count" value="{$product.product_count}">0代表无显示</td>
+	    </tr>
+	    <tr>
+	      <td align="right">产品状态:</td>
+          <td align="left">
+              <select name="status">
+                  <option value='1'>上架</option>
+                  <option value='2'>下架</option>
+                  <option value='3'>禁用</option>
+                  <option value='4'>回收站</option>
+              </select>
+          </td>
+	    </tr>
+	    <tr>
+	      <td align="right">二维码图片:</td>
+	      <td align="left"><input type="text" name="qr_pic"></td>
+	    </tr>
+        <tr>
+	      <td align="right">产品使用说明:</td>
+          <td align="left"><textarea name="use_condition" cols="20" rows="5">{$product.use_condition}</textarea></td>
+	    </tr>
+
+
+	    <tr>
+	      <td width="74" align="right">卡等级：</td>
+          <td width="304" align="left"><input type="text" name="buy_level" value="{$product.buy_level}"></td>
+	    </tr>
+        <tr>
+	      <td align="right">卡积分规则：</td>
+	      <td align="left"><input type="text" name="socre_rule" value="{$product.socre_rule}"></td>
+	    </tr>
+	    <tr>
+	      <td align="right">打折比例:</td>
+	      <td align="left"><input type="text" name="discount" value="{$product.discount}"></td>
+	      </tr>
+	    <tr>
+	      <td align="right">领取人数:</td>
+	      <td align="left"><input type="text" name="user_count" class="required" value="{$product.user_count}"></td>
+	    </tr>
+        <tr>
+	      <td width="74" align="right">可领取次数：</td>
+	      <td width="304" align="left"><input type="text" name="user_get_times" value="{$product.user_get_times}"></td>
+	    </tr>
+        <tr>
+	      <td width="74" align="right">开始时间：</td>
+	      <td width="304" align="left"><input type="text" name="start_time"></td>
+	    </tr>
+        <tr>
+	      <td width="74" align="right">结束时间：</td>
+	      <td width="304" align="left"><input type="text" name="end_time"></td>
+	    </tr>
+	    <tr>
+	      <td colspan="2" align="center"><input type="submit" id="mer_btn" class="btn" value="提交"></td>
+        </tr>
+	    </table></td>
+	  </tr>
+	  </table>
+</form>
+
+<script>
+seajs.use(['j.validate','j.area'], function(){
+  var form = $('#J_form');
+  form.validate({
+    rules: {
+
+    },
+    submitHandler: function(form){
+        form.submit();
+    }
+  });
+
+});
+
+</script>

@@ -1,0 +1,70 @@
+	<form action="__URL__/add"  method="post" id="J_form">
+	  <table width="607" height="424" align="center">
+        <th height="55"><H3>修改店铺信息</H3></th>
+        <input type="hidden" name="merchant_id" value="{$store.merchant_id}" />
+        <input type="hidden" name="store_id" value="{$store.store_id}" />
+	  <tr>
+	  <td><table height="273" align="center">
+        <tr>
+	      <td width="150" align="right">店铺名称：</td>
+          <td width="404" align="left"><input type="text" class="required" name="store_name" value="{$store.store_name}"></td>
+	    </tr>
+        <tr>
+	      <td align="right">店铺电话：</td>
+	      <td align="left"><input type="text" name="store_telephone" class="required" value="{$store.store_telephone}"></td>
+	    </tr>
+	    <tr>
+	      <td width="150" align="right">店铺管理者：</td>
+	      <td width="404" align="left"><input type="text" class="required" name="store_managers" value="{$store.store_managers}"></td>
+	    </tr>
+	    <tr>
+	      <td align="right">详细地址:</td>
+	      <td align="left"><input type="text" name="store_address" class="required" value="{$store.store_address}"></td>
+	    </tr>
+	    <tr>
+	      <td align="right">支付用户名：</td>
+	      <td align="left"><input type="text" name="payment_account" class="required" value="{$store.payment_account}"></td>
+	      </tr>
+	    <tr>
+	      <td align="right">支付方式:</td>
+	      <td align="left"><input type="text" name="payment_type" value="{$store.payment_type}"></td>
+	    </tr>
+        <tr>
+	      <td align="right">主店铺:</td>
+          <td align="left">
+              <select name="main_store_id">
+                   <option value=""> </option> 
+                   <foreach name='stores' item='s'>
+                   <option value="{$s.store_id}">{$s.store_name}</option>
+                   </foreach>
+              </select>
+          </td>
+	    </tr>
+        <tr>
+	      <td align="right">店铺描述:</td>
+          <td align="left"><textarea name="store_desc" cols="20" rows="5">{$store.store_desc}</textarea></td>
+	    </tr>
+	    <tr>
+	      <td colspan="2" align="center"><input type="submit" id="mer_btn" value="提交" class="btn"></td>
+          </tr>
+	    </table></td>
+	  </tr>
+	  </table>
+</form>
+
+<script>
+seajs.use(['j.validate','j.area'], function(){
+  var form = $('#J_form');
+
+  form.validate({
+    rules: {
+
+    },
+    submitHandler: function(form){
+        form.submit();
+    }
+  });
+
+});
+
+</script>

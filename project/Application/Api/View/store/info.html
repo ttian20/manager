@@ -1,0 +1,41 @@
+<div>
+   <h3>店铺信息</h3>
+   <dl class="dl-horizontal">
+       <dt>店铺名称:</dt>
+       <dd>{$store.store_name}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>门店电话:</dt>
+       <dd>{$store.store_telephone}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>门店负责人:</dt>
+       <dd>{$store.store_managers}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>门店地址:</dt>
+       <dd>{$store.store_address}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>店铺支付帐号:</dt>
+       <dd>{$store.payment_account}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>结账类型:</dt>
+       <dd>{$store.payment_type}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>分店描述:</dt>
+       <dd>{$store.store_desc}</dd>
+   </dl>
+   <dl class="dl-horizontal">
+       <dt>创建时间:</dt>
+       <dd>{$store.create_time}</dd>
+   </dl>
+
+   <dl class="dl-horizontal">
+       <dt></dt>
+       <dd><a href="/index.php/mer/store/edit?id={$store.store_id}" class="btn">修改店铺信息</a></dd>
+   </dl>
+   
+</div>
