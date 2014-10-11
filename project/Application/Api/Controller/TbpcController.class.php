@@ -1,23 +1,25 @@
 <?php
 // 本类由系统自动生成，仅供测试用途
 namespace Api\Controller;
-class KeywordController extends ApiController {
+class TbpcController extends ApiController {
 
     public function add(){
+        $args = array('kwd', 'nid', 'shop_type', 'times', 'sleep_time', 'click_start', 'click_end', 'begin_time', 'end_time');
+        $this->_checkArgs($args);
         $data = array(
             'kwd' => $this->_params['kwd'],
             'nid' => $this->_params['nid'],
             'appkey' => $this->_params['appkey'],
+            'platform' => 'tbpc',
             'shop_type' => $this->_params['shop_type'],
             'times' => $this->_params['times'],
-            'path1' => $this->_params['path1'],
-            'path2' => $this->_params['path2'],
-            'path3' => $this->_params['path3'],
             'sleep_time' => $this->_params['sleep_time'],
             'click_start' => $this->_params['click_start'],
             'click_end' => $this->_params['click_end'],
             'begin_time' => strtotime($this->_params['begin_time']),
             'end_time' => strtotime($this->_params['end_time']),
+            'created_at' => time(),
+            'updated_at' => time(),
         );
     
         $end = trim($_POST['click_end']);
@@ -28,6 +30,16 @@ class KeywordController extends ApiController {
         $data['click_interval'] = $interval;
         $kwdMdl = D('Keyword');
         $kwd = $kwdMdl->createNew($data);
+        if ($kwd) {
+            $kwdTbpcMdl = D('KeywordTbpc');
+            $data = array(
+                'kid' => $kwd['id'],
+                'path1' => $this->_params['path1'],
+                'path2' => $this->_params['path2'],
+                'path3' => $this->_params['path3'],
+            );
+            $kwdTbpcMdl->add($data);
+        }
         $this->_success($kwd);
     }
 
@@ -37,15 +49,29 @@ class KeywordController extends ApiController {
             'appkey' => $this->_params['appkey'],
             'shop_type' => $this->_params['shop_type'],
             'times' => $this->_params['times'],
-            'path1' => $this->_params['path1'],
-            'path2' => $this->_params['path2'],
-            'path3' => $this->_params['path3'],
             'sleep_time' => $this->_params['sleep_time'],
             'click_start' => $this->_params['click_start'],
             'click_end' => $this->_params['click_end'],
             'begin_time' => strtotime($this->_params['begin_time']),
             'end_time' => strtotime($this->_params['end_time']),
         );
+        /*
+        if (isset($this->_params[])) {
+            $data[] = $this->_params[];
+        }
+
+        if (isset($this->_params[])) {
+            $data[] = $this->_params[];
+        }
+
+        if (isset($this->_params[])) {
+            $data[] = $this->_params[];
+        }
+
+        if (isset($this->_params[])) {
+            $data[] = $this->_params[];
+        }
+        */
 
         $end = trim($_POST['click_end']);
         $begin = trim($_POST['click_start']);
@@ -58,6 +84,17 @@ class KeywordController extends ApiController {
         $kwdMdl = D('Keyword');
         if ($kwdMdl->getRow($filter)) {
             $kwdMdl->save($data);
+
+            $tbpc = array(
+                'kid' => $this->_params['kid'],
+                'path1' => $this->_params['path1'],
+                'path2' => $this->_params['path2'],
+                'path3' => $this->_params['path3'],
+            );
+            
+            $kwdTbpcMdl = D('KeywordTbpc');
+            $kwdTbpcMdl->save($tbpc);
+
             $this->_success($data);
         }
         else {

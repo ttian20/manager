@@ -4,7 +4,8 @@ use Think\Controller;
 
 class ApiController extends Controller {
     protected $_params = array();
-    protected $_appsecret = 'test';
+    protected $_appkey = array();
+    protected $_appsecret = null;
 
     
     /**
@@ -22,8 +23,20 @@ class ApiController extends Controller {
             }
         }
 
+        $appkey = trim($this->_params['appkey']);
+        $appkeyMdl = D('Appkey');
+        $filter = array('appkey' => $appkey);
+        $_appkey = $appkeyMdl->getRow($filter);
+        if (!$_appkey) {
+            $this->_error(404, 1002, 'appkey not exists: ' . $appkey);            
+        }
+
+        $this->_appkey = $_appkey;
+
+        $this->_checkIp();
+
         //check sign
-        //$this->_checkSign();
+        $this->_checkSign();
 
 
         //check timestamp
@@ -37,6 +50,7 @@ class ApiController extends Controller {
 
     protected function _error($resp_id, $err_id, $err_msg, $err_exp = '') {
         $error = array(
+            'status' => 'fail',
             'resp_id' => $resp_id,
             'err_id' => $err_id,
             'err_msg' => $err_msg,
@@ -49,8 +63,8 @@ class ApiController extends Controller {
 
     protected function _success($resp_data) {
         $succ = array(
-            'resp_id' => 200,
-            'resp_data' => $resp_data,
+            'status' => 'success',
+            'data' => $resp_data,
         );
         header("Content-type: application/json; charset=utf-8");
         echo json_encode($succ);
@@ -60,7 +74,7 @@ class ApiController extends Controller {
     protected function _checkSign() {
         $method = CONTROLLER_NAME . "/" . ACTION_NAME; 
         $params = $this->_ksort($this->_params);
-        $signString = $method;
+        $signString = strtolower($method);
         $ex_params = array('sign', 'appsecret', '_', 'method');
 
         foreach ($params as $k => $v) {
@@ -69,9 +83,18 @@ class ApiController extends Controller {
             }
         }
 
-        $signString = md5($signString . md5($this->_appsecret));
+        $signString = md5($signString . md5($this->_appkey['appsecret']));
         if (strtolower($params['sign']) != strtolower($signString)) {
             $this->_error(403, 4003, 'error sign');
+        }
+    }
+
+    protected function _checkIp() {
+        $whiteList = explode(',', $this->_appkey['ip']);
+
+        $ip = $_SERVER["REMOTE_ADDR"];
+        if (!in_array($ip, $whiteList)) {
+            $this->_error(403, 4003, 'ip not in whitelist');
         }
     }
 
@@ -90,7 +113,7 @@ class ApiController extends Controller {
         $sysArgs = array('appkey', 'sign', 'timestamp');
 
         foreach ($sysArgs as $k) {
-            if (!isset($this->_params[$k]) || '' == trim($this->_params[$k])) {
+            if (!isset($this->_params[$k]) || '' === trim($this->_params[$k])) {
                 $this->_error(404, 1001, 'missing system argument: ' . $k);            
             }
         }
@@ -98,7 +121,7 @@ class ApiController extends Controller {
 
     protected function _checkArgs($args) {
         foreach ($args as $k) {
-            if (!isset($this->_params[$k]) || '' == trim($this->_params[$k])) {
+            if (!isset($this->_params[$k]) || '' === trim($this->_params[$k])) {
                 $this->_error(404, 1002, 'missing argument: ' . $k);            
             }
         }
