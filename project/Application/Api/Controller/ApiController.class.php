@@ -93,7 +93,7 @@ class ApiController extends Controller {
         $whiteList = explode(',', $this->_appkey['ip']);
 
         $ip = $_SERVER["REMOTE_ADDR"];
-        if (!in_array($ip, $whiteList)) {
+        if ('all' != $whiteList[0] && !in_array($ip, $whiteList)) {
             $this->_error(403, 4003, 'ip not in whitelist');
         }
     }
@@ -138,5 +138,57 @@ class ApiController extends Controller {
                 $this->_error(403, 4002, 'the link is time out');
             }
         }
+    }
+
+    protected function _checkTimeRange() {
+        $today = date("Y-m-d");
+        $end = trim($this->_params['click_end']);
+        $endArr = explode(':', $end);
+
+        if ($endArr[0] >= 24) {
+            $this->_error(500, 5001, 'click_end error');
+        }
+
+        $endArrFirst = str_pad($endArr[0], 2, "0", STR_PAD_LEFT);
+        if (count($endArr) == 1) {
+            $endStr = $endArrFirst . ':00:00';
+        }
+        elseif (count($endArr) == 2) {
+            $endStr = $endArrFirst . ':' . $endArr[1] . ':00';
+        }
+        elseif (count($endArr) == 3) {
+            $endStr = $endArrFirst . ':' . $endArr[1] . ':' . $endArr[2];
+        }
+        else {
+            $this->_error(500, 5001, 'click_end format error');
+        }
+        $clickend = strtotime($today . ' ' . $endStr);
+
+        $begin = trim($this->_params['click_start']);
+        $beginArr = explode(':', $begin);
+        $beginArrFirst = str_pad($beginArr[0], 2, "0", STR_PAD_LEFT);
+        if (count($beginArr) == 1) {
+            $beginStr = $beginArrFirst . ':00:00';
+        }
+        elseif (count($beginArr) == 2) {
+            $beginStr = $beginArrFirst . ':' . $beginArr[1] . ':00';
+        }
+        elseif (count($beginArr) == 2) {
+            $beginStr = $beginArrFirst . ':' . $beginArr[1] . ':00';
+        }
+        elseif (count($beginArr) == 3) {
+            $beginStr = $beginArrFirst . ':' . $beginArr[1] . ':' . $beginArr[2];
+        }
+        else {
+            $this->_error(500, 5001, 'click_begin format error');
+        }
+        $clickbegin = strtotime($today . ' ' . $beginStr);
+
+        if ($clickbegin > $clickend) {
+            $this->_error(500, 5001, 'click_begin must less than click_end');
+        }
+
+        $seconds = $clickend - $clickbegin;
+        return array('click_start' => $beginStr, 'click_end' => $endStr, 'seconds' => $seconds);
     }
 }

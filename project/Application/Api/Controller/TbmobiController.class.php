@@ -14,19 +14,21 @@ class TbmobiController extends ApiController {
             'shop_type' => $this->_params['shop_type'],
             'times' => $this->_params['times'],
             'sleep_time' => $this->_params['sleep_time'],
-            'click_start' => $this->_params['click_start'],
-            'click_end' => $this->_params['click_end'],
+            'click_start_input' => $this->_params['click_start'],
+            'click_end_input' => $this->_params['click_end'],
+            'status' => 'active',
             'begin_time' => strtotime($this->_params['begin_time']),
             'end_time' => strtotime($this->_params['end_time']),
             'created_at' => time(),
             'updated_at' => time(),
         );
+
+        $seconds = $this->_checkTimeRange();
     
-        $end = trim($_POST['click_end']);
-        $begin = trim($_POST['click_start']);
-        $seconds = ($end - $begin) * 3600;
         $times = trim($_POST['times']);
-        $interval = ceil($seconds / $times);
+        $interval = ceil($seconds['seconds'] / $times);
+        $data['click_start'] = $seconds['click_start'];
+        $data['click_end'] = $seconds['click_end'];
         $data['click_interval'] = $interval;
         $kwdMdl = D('Keyword');
         $kwd = $kwdMdl->createNew($data);
@@ -49,8 +51,8 @@ class TbmobiController extends ApiController {
             'shop_type' => $this->_params['shop_type'],
             'times' => $this->_params['times'],
             'sleep_time' => $this->_params['sleep_time'],
-            'click_start' => $this->_params['click_start'],
-            'click_end' => $this->_params['click_end'],
+            'click_start_input' => $this->_params['click_start'],
+            'click_end_input' => $this->_params['click_end'],
             'begin_time' => strtotime($this->_params['begin_time']),
             'end_time' => strtotime($this->_params['end_time']),
         );
@@ -72,11 +74,11 @@ class TbmobiController extends ApiController {
         }
         */
 
-        $end = trim($_POST['click_end']);
-        $begin = trim($_POST['click_start']);
-        $seconds = ($end - $begin) * 3600;
+        $seconds = $this->_checkTimeRange();
         $times = trim($_POST['times']);
-        $interval = ceil($seconds / $times);
+        $interval = ceil($seconds['seconds'] / $times);
+        $data['click_start'] = $seconds['click_start'];
+        $data['click_end'] = $seconds['click_end'];
         $data['click_interval'] = $interval;
 
         $filter = array('id' => $this->_params['kid'], 'appkey' => $this->_params['appkey']);
