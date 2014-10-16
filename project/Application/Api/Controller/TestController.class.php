@@ -10,9 +10,9 @@ class TestController extends Controller {
      * 验证系统参数
      */
     public function index() {
-        $api_Keyword = array(
+        $api_Tbpc = array(
             array(
-                'name' => 'keyword/add', 'title' => '增加关键词',
+                'name' => 'tbpc/add', 'title' => '增加关键词',
                 'params' => array(
                     array('name' => 'kwd', 'title' => '关键词'),
                     array('name' => 'nid', 'title' => '宝贝id'),
@@ -29,14 +29,15 @@ class TestController extends Controller {
                 ), 
             ),
             array(
-                'name' => 'keyword/modify', 'title' => '修改关键词',
+                'name' => 'tbpc/modify', 'title' => '修改关键词',
                 'params' => array(
                     array('name' => 'kid', 'title' => '关键词ID'),
-                    array('name' => 'shop_type', 'title' => '店铺类型'),
+                    array('name' => 'shop_type', 'title' => '店铺类型', 'type'=>'select', 'optionlist'=>'b:天猫,c:淘宝'),
                     array('name' => 'times', 'title' => '日点击数'),
                     array('name' => 'path1', 'title' => '淘宝搜索路径占比'),
                     array('name' => 'path2', 'title' => '淘宝搜天猫路径占比'),
                     array('name' => 'path3', 'title' => '天猫搜索路径占比'),
+                    array('name' => 'sleep_time', 'title' => '宝贝页停留时间(秒)'),
                     array('name' => 'click_start', 'title' => '每日开始时间(如8点)'),
                     array('name' => 'click_end', 'title' => '每日结束时间(如24点)'),
                     array('name' => 'begin_time', 'title' => '开始日期(如2014-09-23)'),
@@ -44,9 +45,9 @@ class TestController extends Controller {
                 ), 
             ),
         );
-        $api_Tmobile = array(
+        $api_Tbmobi = array(
             array(
-                'name' => 'tmobile/add', 'title' => '增加关键词',
+                'name' => 'tbmobi/add', 'title' => '增加关键词',
                 'params' => array(
                     array('name' => 'kwd', 'title' => '关键词'),
                     array('name' => 'nid', 'title' => '宝贝id'),
@@ -62,13 +63,14 @@ class TestController extends Controller {
                 ), 
             ),
             array(
-                'name' => 'tmobile/modify', 'title' => '修改关键词',
+                'name' => 'tbmobi/modify', 'title' => '修改关键词',
                 'params' => array(
                     array('name' => 'kid', 'title' => '关键词ID'),
                     array('name' => 'shop_type', 'title' => '店铺类型'),
                     array('name' => 'times', 'title' => '日点击数'),
                     array('name' => 'path1', 'title' => '淘宝搜索路径占比(2路径占比之和为100)'),
                     array('name' => 'path2', 'title' => '淘宝搜天猫路径占比(C店商品不可设置)'),
+                    array('name' => 'sleep_time', 'title' => '宝贝页停留时间(秒)'),
                     array('name' => 'click_start', 'title' => '每日开始时间(如8点)'),
                     array('name' => 'click_end', 'title' => '每日结束时间(如24点)'),
                     array('name' => 'begin_time', 'title' => '开始日期(如2014-09-23)'),
@@ -77,9 +79,9 @@ class TestController extends Controller {
             ),
         );
 
-        $api_Jd = array(
+        $api_Jdpc = array(
             array(
-                'name' => 'jd/add', 'title' => '增加关键词',
+                'name' => 'jdpc/add', 'title' => '增加关键词',
                 'params' => array(
                     array('name' => 'kwd', 'title' => '关键词'),
                     array('name' => 'nid', 'title' => '宝贝id'),
@@ -92,7 +94,7 @@ class TestController extends Controller {
                 ), 
             ),
             array(
-                'name' => 'jd/modify', 'title' => '修改关键词',
+                'name' => 'jdpc/modify', 'title' => '修改关键词',
                 'params' => array(
                     array('name' => 'kid', 'title' => '关键词ID'),
                     array('name' => 'times', 'title' => '日点击数'),
@@ -105,9 +107,9 @@ class TestController extends Controller {
         );
 
         $api = array(
-            array('name' => 'Keyword', 'title' => '淘宝PC'),
-            array('name' => 'Tmobile', 'title' => '淘宝移动'),
-            array('name' => 'Jd', 'title' => '京东PC'),
+            array('name' => 'Tbpc', 'title' => '淘宝PC'),
+            array('name' => 'Tbmobi', 'title' => '淘宝移动'),
+            array('name' => 'Jdpc', 'title' => '京东PC'),
         );
 
         foreach ($api as $k => &$v) {
@@ -153,15 +155,18 @@ class TestController extends Controller {
     }
 
     protected function _genSign($method, $appsecret, $params) {
-
         $params = $this->_ksort($params);
+        \Common\Lib\Utils::log('api', 'api.log', $params);
         $signString = trim($method);
 
         foreach ($params as $k => $v) {
             $signString .= $v;   
         }
+        \Common\Lib\Utils::log('api', 'api.log', 'sign string is: ' . $signString);
+        \Common\Lib\Utils::log('api', 'api.log', 'appsecret is: ' . $appsecret);
 
         $signString = md5($signString . md5($appsecret));
+        \Common\Lib\Utils::log('api', 'api.log', 'sign string is: ' . $signString);
         return strtolower($signString);
     }
 
