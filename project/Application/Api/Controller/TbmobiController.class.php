@@ -19,6 +19,7 @@ class TbmobiController extends ApiController {
             'status' => 'active',
             'begin_time' => strtotime($this->_params['begin_time']),
             'end_time' => strtotime($this->_params['end_time']),
+            'is_detected' => 1,
             'created_at' => time(),
             'updated_at' => time(),
         );
