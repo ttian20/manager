@@ -26,7 +26,8 @@ class TbmobiController extends ApiController {
 
         $seconds = $this->_checkTimeRange();
     
-        $times = trim($_POST['times']);
+        $times = trim($this->_params['times']);
+
         $interval = ceil($seconds['seconds'] / $times);
         $data['click_start'] = $seconds['click_start'];
         $data['click_end'] = $seconds['click_end'];
