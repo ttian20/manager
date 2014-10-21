@@ -33,6 +33,14 @@ class TbpcController extends ApiController {
         $kwdMdl = D('Keyword');
         $kwd = $kwdMdl->createNew($data);
         if ($kwd) {
+            if (($this->_params['path1'] + $this->_params['path2'] + $this->_params['path3']) != 100) {
+                $this->_error(500, 5001, 'total path is not 100');
+            }
+
+            if (($this->_params['shop_type'] == 'c') && ($this->_params['path1'] != 100)) {
+                $this->_error(500, 5001, 'pah1 should be 100 while shop_type is c');
+            }
+
             $kwdTbpcMdl = D('KeywordTbpc');
             $data = array(
                 'kid' => $kwd['id'],
@@ -40,6 +48,7 @@ class TbpcController extends ApiController {
                 'path2' => $this->_params['path2'],
                 'path3' => $this->_params['path3'],
             );
+
             $kwdTbpcMdl->add($data);
         }
         $this->_success($kwd);
@@ -85,6 +94,14 @@ class TbpcController extends ApiController {
         $filter = array('id' => $this->_params['kid'], 'appkey' => $this->_params['appkey']);
         $kwdMdl = D('Keyword');
         if ($kwdMdl->getRow($filter)) {
+            if (($this->_params['path1'] + $this->_params['path2'] + $this->_params['path3']) != 100) {
+                $this->_error(500, 5001, 'total path is not 100');
+            }
+
+            if (($this->_params['shop_type'] == 'c') && ($this->_params['path1'] != 100)) {
+                $this->_error(500, 5001, 'pah1 should be 100 while shop_type is c');
+            }
+
             $kwdMdl->save($data);
 
             $tbpc = array(

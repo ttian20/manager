@@ -116,19 +116,19 @@
                                             <div class="form-group">
                                                 <label class="col-lg-2 control-label" for="nid">淘宝搜索</label>
                                                 <div class="col-lg-10">
-                                                    流量分配<input class="form-control input-sm" id="path1" name="path1" type="text" value="<{$kwd.path1}>">地区<input class="form-control input-sm" id="path1_region" name="path1_region" type="text" value="<{$kwd.path1_region}>">价格初始值<input class="form-control input-sm" id="path1_price_from" name="path1_price_from" type="text" value="<{$kwd.path1_price_from}>">价格结束值<input class="form-control input-sm" id="path1_price_to" name="path1_price_to" type="text" value="<{$kwd.path1_price_to}>">
+                                                    <input class="form-control input-sm" id="path1" name="path1" type="text" value="<{$kwd.path1}>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 control-label" for="nid">淘宝搜天猫</label>
                                                 <div class="col-lg-10">
-                                                    流量分配<input class="form-control input-sm" id="path2" name="path2" type="text" value="<{$kwd.path2}>">地区<input class="form-control input-sm" id="path2_region" name="path2_region" type="text" value="<{$kwd.path2_region}>">价格初始值<input class="form-control input-sm" id="path2_price_from" name="path2_price_from" type="text" value="<{$kwd.path2_price_from}>">价格结束值<input class="form-control input-sm" id="path2_price_to" name="path2_price_to" type="text" value="<{$kwd.path2_price_to}>">
+                                                    <input class="form-control input-sm" id="path2" name="path2" type="text" value="<{$kwd.path2}>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 control-label" for="nid">天猫搜索</label>
                                                 <div class="col-lg-10">
-                                                    流量分配<input class="form-control input-sm" id="path3" name="path3" type="text" value="<{$kwd.path3}>">价格初始值<input class="form-control input-sm" id="path3_price_from" name="path3_price_from" type="text" value="<{$kwd.path3_price_from}>">价格结束值<input class="form-control input-sm" id="path3_price_to" name="path3_price_to" type="text" value="<{$kwd.path3_price_to}>">
+                                                    <input class="form-control input-sm" id="path3" name="path3" type="text" value="<{$kwd.path3}>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -158,16 +158,16 @@
                                             <div class="form-group">
                                                 <label class="col-lg-2 control-label" for="begin_time">推广开始日期</label>
                                                 <div class="col-lg-10">
-                                                    <input class="form-control" id="begin_time" name="begin_time" type="text" value="<{$kwd.begin_time|date_format:'%Y-%m-%d'}>">
+                                                    <input class="form-control datepicker" id="begin_time" name="begin_time" type="text" value="<{$kwd.begin_time|date_format:'%Y-%m-%d'}>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 control-label" for="end_time">推广结束日期</label>
                                                 <div class="col-lg-10">
-                                                    <input class="form-control" id="ent_time" name="end_time" type="text" value="<{$kwd.end_time|date_format:'%Y-%m-%d'}>">
+                                                    <input class="form-control datepicker" id="ent_time" name="end_time" type="text" value="<{$kwd.end_time|date_format:'%Y-%m-%d'}>">
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">保存</button>
+                                            <button type="submit" id="btnSub" class="btn btn-primary">保存</button>
                                         </fieldset>
                                     </form>
                                 </div>
@@ -207,7 +207,32 @@
 
         <script type="text/javascript">
             $(function() {
-                $('.datepicker').datepicker();
+                var act = '<{$act}>';
+                $('#btnSub').click(function(){
+                    $.ajax({
+                        type:"POST",
+                        url:'<{$actionUrl}>',
+                        dataType:"json",
+                        data:$('form').serialize(),
+                        success:function(msg){
+                            if (msg.status == 'fail') {
+                                alert(msg.err_msg);
+                            }
+                            else {
+                                if ('add' == act) { 
+                                    alert('添加成功');
+                                    window.location.href = '/admin/keyword/lists';
+                                }
+                                else {
+                                    alert('编辑成功');
+                                    window.location.href = '/admin/keyword/lists';                                   
+                                }
+                            }
+                        }
+                    });
+                    return false;
+                });
+                $('.datepicker').datepicker({format:"yyyy-mm-dd"});
                 $('.uniform_on').uniform();
                 $('.chzn-select').chosen();
                 $('.selectize-select').selectize();

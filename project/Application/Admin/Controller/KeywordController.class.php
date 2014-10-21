@@ -20,7 +20,7 @@ class KeywordController extends Controller {
             exit;
         }
         $kwdMdl = D('Keyword');
-        $filter = array('status' => $status);
+        $filter = array('status' => $status, 'appkey' => 'system');
         $keywords = $kwdMdl->getAll($filter);
         foreach ($keywords as &$v) {
             $v['begin_time'] = date('Y-m-d', $v['begin_time']);
@@ -33,41 +33,33 @@ class KeywordController extends Controller {
 
     public function add() {
         if ($_POST) {
+            $config = array(
+                'appkey' => 'system',
+                'appsecret' => 'c54764af2f98102b259d9941f781a8a1',
+                'baseUrl' => C('SITE') . '/api/',
+            );
+            
+            $api = new \Common\Lib\Api($config);
+            
+            $method = 'tbpc/add';
             $data = array(
                 'kwd' => trim($_POST['kwd']),
                 'nid' => trim($_POST['nid']),
                 'shop_type' => trim($_POST['shop_type']),
                 'times' => trim($_POST['times']),
-                'path1' => trim($_POST['path1']),
-                'path1_region' => trim($_POST['path1_region']),
-                'path1_price_from' => trim($_POST['path1_price_from']),
-                'path1_price_to' => trim($_POST['path1_price_to']),
-                'path2' => trim($_POST['path2']),
-                'path2_region' => trim($_POST['path2_region']),
-                'path2_price_from' => trim($_POST['path2_price_from']),
-                'path2_price_to' => trim($_POST['path2_price_to']),
-                'path3' => trim($_POST['path3']),
-                'path3_region' => trim($_POST['path3_region']),
-                'path3_price_from' => trim($_POST['path3_price_from']),
-                'path3_price_to' => trim($_POST['path3_price_to']),
+                'path1' => isset($_POST['path1']) ? trim($_POST['path1']) : 0,
+                'path2' => isset($_POST['path2']) ? trim($_POST['path2']) : 0,
+                'path3' => isset($_POST['path3']) ? trim($_POST['path3']) : 0,
                 'sleep_time' => trim($_POST['sleep_time']),
                 'click_start' => trim($_POST['click_start']),
                 'click_end' => trim($_POST['click_end']),
                 'status' => 'active',
-                'begin_time' => strtotime(trim($_POST['begin_time'])),
-                'end_time' => strtotime(trim($_POST['end_time'])),
+                'begin_time' => trim($_POST['begin_time']),
+                'end_time' => trim($_POST['end_time']),
             );
-
-            $end = trim($_POST['click_end']);
-            $begin = trim($_POST['click_start']);
-            $seconds = ($end - $begin) * 3600;
-            $times = trim($_POST['times']);
-            $interval = ceil($seconds / $times);
-            $data['click_interval'] = $interval;
-
-
-            $kwdMdl = D('Keyword');
-            $kwdMdl->createNew($data);
+            $res = $api->request($method, $data);
+            echo json_encode($res);
+            exit;
         }
         $this->assign('act', 'add');
         $this->assign('actionUrl', '/admin/keyword/add');
@@ -81,19 +73,28 @@ class KeywordController extends Controller {
             if ($kid != $_POST['id']) {
                 exit('非法请求');
             }
-            $data = $_POST;
-            $data['begin_time'] = strtotime($data['begin_time']);
-            $data['end_time'] = strtotime($data['end_time']);
-            if (($data['end_time'] + 86400) > time()) {
-                $data['status'] = 'active';
-            }
-            $end = trim($data['click_end']);
-            $begin = trim($data['click_start']);
-            $seconds = ($end - $begin) * 3600;
-            $times = trim($data['times']);
-            $interval = ceil($seconds / $times);
-            $data['click_interval'] = $interval;
-            $kwdMdl->save($data);
+            $config = array(
+                'appkey' => 'system',
+                'appsecret' => 'c54764af2f98102b259d9941f781a8a1',
+                'baseUrl' => C('SITE') . '/api/',
+            );
+            
+            $api = new \Common\Lib\Api($config);
+            
+            $method = 'tbpc/modify';
+            $data = array(
+                'kid' => trim($_POST['id']),
+                'shop_type' => trim($_POST['shop_type']),
+                'times' => trim($_POST['times']),
+                'sleep_time' => trim($_POST['sleep_time']),
+                'click_start' => trim($_POST['click_start']),
+                'click_end' => trim($_POST['click_end']),
+                'begin_time' => trim($_POST['begin_time']),
+                'end_time' => trim($_POST['end_time']),
+            );
+            $res = $api->request($method, $data);
+            echo json_encode($res);
+            exit;
         }
         $keyword = $kwdMdl->getRow(array('id' => $kid));
         $this->assign('kwd', $keyword);
@@ -122,5 +123,9 @@ class KeywordController extends Controller {
         $kwd = $kwdMdl->getRow(array('id' => $kid)); 
         print_r($kwd);
         exit;
+    }
+
+    public function buildApiUrl() {
+
     }
 }
