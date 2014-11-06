@@ -25,7 +25,7 @@ class JdpcController extends ApiController {
 
         $seconds = $this->_checkTimeRange();
 
-        $times = trim($_POST['times']);
+        $times = (int)trim($this->_params['times']) * 2;
         $interval = ceil($seconds['seconds'] / $times);
         $data['click_start'] = $seconds['click_start'];
         $data['click_end'] = $seconds['click_end'];
@@ -74,7 +74,7 @@ class JdpcController extends ApiController {
 
         $seconds = $this->_checkTimeRange();
 
-        $times = trim($_POST['times']);
+        $times = (int)trim($this->_params['times']) * 2;
         $interval = ceil($seconds['seconds'] / $times);
         $data['click_start'] = $seconds['click_start'];
         $data['click_end'] = $seconds['click_end'];

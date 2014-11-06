@@ -86,6 +86,9 @@ class KeywordController extends Controller {
                 'kid' => trim($_POST['id']),
                 'shop_type' => trim($_POST['shop_type']),
                 'times' => trim($_POST['times']),
+                'path1' => isset($_POST['path1']) ? trim($_POST['path1']) : 0,
+                'path2' => isset($_POST['path2']) ? trim($_POST['path2']) : 0,
+                'path3' => isset($_POST['path3']) ? trim($_POST['path3']) : 0,
                 'sleep_time' => trim($_POST['sleep_time']),
                 'click_start' => trim($_POST['click_start']),
                 'click_end' => trim($_POST['click_end']),
@@ -97,7 +100,10 @@ class KeywordController extends Controller {
             exit;
         }
         $keyword = $kwdMdl->getRow(array('id' => $kid));
+        $tbpcMdl =  D('KeywordTbpc');
+        $path = $tbpcMdl->getRow(array('kid' => $kid));
         $this->assign('kwd', $keyword);
+        $this->assign('path', $path);
         $this->assign('act', 'edit');
         $this->assign('actionUrl', '/admin/keyword/edit/' . $kid);
         $this->display('add');

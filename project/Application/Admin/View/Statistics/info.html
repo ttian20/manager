@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tables | Bootstrap 3.x Admin Theme</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" media="screen" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" media="screen" href="/css/bootstrap-theme.min.css">
+
+        <!-- Bootstrap Admin Theme -->
+        <link rel="stylesheet" media="screen" href="/css/bootstrap-admin-theme.css">
+        <link rel="stylesheet" media="screen" href="/css/bootstrap-admin-theme-change-size.css">
+
+        <!-- Datatables -->
+        <link rel="stylesheet" media="screen" href="/css/DT_bootstrap.css">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+           <script type="text/javascript" src="js/html5shiv.js"></script>
+           <script type="text/javascript" src="js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="bootstrap-admin-with-small-navbar">
+        <!-- small navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top bootstrap-admin-navbar-sm" role="navigation">
+            <{*<div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav navbar-left bootstrap-admin-theme-change-size">
+                                <li class="text">Change size:</li>
+                                <li><a class="size-changer small">Small</a></li>
+                                <li><a class="size-changer large active">Large</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li>
+                                    <a href="#">Reminders <i class="glyphicon glyphicon-bell"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings <i class="glyphicon glyphicon-cog"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#">Go to frontend <i class="glyphicon glyphicon-share-alt"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" role="button" class="dropdown-toggle" data-hover="dropdown"> <i class="glyphicon glyphicon-user"></i> Username <i class="caret"></i></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                        <li role="presentation" class="divider"></li>
+                                        <li><a href="index.html">Logout</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>*}>
+        </nav>
+
+        <!-- main / large navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top bootstrap-admin-navbar bootstrap-admin-navbar-under-small" role="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".main-navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="about.html">控制面板</a>
+                        </div>
+                        <div class="collapse navbar-collapse main-navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="#">关键词</a></li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div>
+                </div>
+            </div><!-- /.container -->
+        </nav>
+
+        <div class="container">
+            <!-- left, vertical navbar & content -->
+            <div class="row">
+                <!-- left, vertical navbar -->
+                <div class="col-md-2 bootstrap-admin-col-left">
+                    <ul class="nav navbar-collapse collapse bootstrap-admin-navbar-side">
+                        <li>
+                            <a href="/admin/keyword/add"><i class="glyphicon glyphicon-chevron-right"></i> 添加</a>
+                        </li>
+                        <li class="active">
+                            <a href="/admin/keyword/lists"><i class="glyphicon glyphicon-chevron-right"></i> 列表</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- content -->
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-header">
+                                <h1>点击统计</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="text-muted bootstrap-admin-box-title">关键词详情</div>
+                                </div>
+                                <div class="bootstrap-admin-panel-content">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>列表项</th>
+                                                <th>条目</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>关键词</td>
+                                                <td><{$keyword.kwd}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>宝贝ID</td>
+                                                <td><{$keyword.nid}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>店铺类型</td>
+                                                <td><{$keyword.shop_type}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>预设点击数</td>
+                                                <td><{$keyword.times}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>实际点击数</td>
+                                                <td><{$keyword.clicked_times}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>是否探测</td>
+                                                <td><{if !$keyword.is_detected}><span class="label label-danger"><{$keyword.is_detected}></span><{else}><{$keyword.is_detected}><{/if}></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="text-muted bootstrap-admin-box-title">商品信息探测</div>
+                                </div>
+                                <div class="bootstrap-admin-panel-content">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>列表项</th>
+                                                <th>条目</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>最低价格</td>
+                                                <td><{$price.min_price}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>最高价格</td>
+                                                <td><{$price.max_price}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>地区</td>
+                                                <td><{$price.region}></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div><{$page}></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="text-muted bootstrap-admin-box-title">路径分配记页面探测</div>
+                                </div>
+                                <div class="bootstrap-admin-panel-content">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>列表项</th>
+                                                <th>条目</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>淘宝搜索</td>
+                                                <td><{$tbpc.path1}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-价格</td>
+                                                <td><{if $tbpc.path1_price_from && $tbpc.path1_price_to}><{$tbpc.path1_price_from}><{$tbpc.path1_price_to}><{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-地区</td>
+                                                <td><{$tbpc.path1_region}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索所在页面</td>
+                                                <td><{if $tbpc.path1}><{if ($tbpc.path1_page < 1) || ($tbpc.path1_page > 10)}><span class="label label-danger"><{$tbpc.path1_page}></span><{else}><{$tbpc.path1_page}><{/if}><{else}>-<{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜天猫</td>
+                                                <td><{$tbpc.path2}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-价格</td>
+                                                <td><{if $tbpc.path2_price_from && $tbpc.path2_price_to}><{$tbpc.path2_price_from}><{$tbpc.path2_price_to}><{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-地区</td>
+                                                <td><{$tbpc.path2_region}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜天猫所在页面</td>
+                                                <td><{if $tbpc.path2}><{if ($tbpc.path2_page < 1) || ($tbpc.path2_page > 10)}><span class="label label-danger"><{$tbpc.path2_page}></span><{else}><{$tbpc.path2_page}><{/if}><{else}>-<{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>天猫搜索</td>
+                                                <td><{$tbpc.path3}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-价格</td>
+                                                <td><{if $tbpc.path3_price_from && $tbpc.path3_price_to}><{$tbpc.path3_price_from}><{$tbpc.path3_price_to}><{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>天猫搜索所在页面</td>
+                                                <td><{if $tbpc.path3}><{if ($tbpc.path3_page < 1) || ($tbpc.path3_page > 10)}><span class="label label-danger"><{$tbpc.path3_page}></span><{else}><{$tbpc.path3_page}><{/if}><{else}>-<{/if}></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div><{$page}></div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div class="navbar navbar-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <footer role="contentinfo">
+                            <p class="left">Bootstrap 3.x Admin Theme</p>
+                            <p class="right">&copy; 2013 <a href="http://www.meritoo.pl" target="_blank">Meritoo.pl</a></p>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/twitter-bootstrap-hover-dropdown.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap-admin-theme-change-size.js"></script>
+        <script type="text/javascript" src="vendors/datatables/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="js/DT_bootstrap.js"></script>
+    </body>
+<script type="text/javascript">
+function del(id, kwd) {
+    if (confirm("确定要删除" + kwd + '吗?')) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+</script>
+</html>

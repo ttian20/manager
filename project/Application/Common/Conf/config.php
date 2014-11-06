@@ -3,7 +3,7 @@ $common = array(
     'DB_TYPE' => 'mysql', // 数据库类型
     #'DB_HOST' => 'localhost', // 服务器地址
     'DB_HOST' => '121.40.158.144', // 服务器地址
-    'DB_NAME' => 'sandbox', // 数据库名
+    'DB_NAME' => 'production', // 数据库名
     'DB_USER' => 'admin', // 用户名
     'DB_PWD' => 'txg19831210', // 密码
     'DB_PORT' => '3306', // 端口
@@ -12,7 +12,6 @@ $common = array(
 
     'URL_MODEL' => 2,
     'URL_HTML_SUFFIX' => '',
-    'URL_ROUTER_ON' => true,
 
     'TMPL_ENGINE_TYPE' => 'Smarty', //模版引擎配置
     'TMPL_ENGINE_CONFIG' => array(
@@ -24,6 +23,10 @@ $common = array(
     'TMPL_ACTION_ERROR' => 'Layouts:dispatch_jump',
     //默认成功跳转对应的模板文件
     'TMPL_ACTION_SUCCESS' => 'Layouts:dispatch_jump',
+
+    'SITE' => 'http://api.aymoo.com/',
+
+    'URL_ROUTER_ON' => true,
 );
 
 return $common;

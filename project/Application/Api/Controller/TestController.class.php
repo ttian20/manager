@@ -106,10 +106,23 @@ class TestController extends Controller {
             ),
         );
 
+        $api_Statistics = array(
+            array(
+                'name' => 'statistics/getclicks', 'title' => '获取点击数量',
+                'params' => array(
+                    array('name' => 'id', 'title' => '系统给出的点击任务ID'),
+                    array('name' => 'date', 'title' => '日期(20140907)'),
+                    array('name' => 'page_no', 'title' => '页数'),
+                    array('name' => 'page_size', 'title' => '每页记录数(最大100)'),
+                ), 
+            ),
+        );
+
         $api = array(
             array('name' => 'Tbpc', 'title' => '淘宝PC'),
             array('name' => 'Tbmobi', 'title' => '淘宝移动'),
             array('name' => 'Jdpc', 'title' => '京东PC'),
+            array('name' => 'Statistics', 'title' => '点击数查询'),
         );
 
         foreach ($api as $k => &$v) {
