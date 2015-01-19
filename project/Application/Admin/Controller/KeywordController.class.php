@@ -134,4 +134,24 @@ class KeywordController extends Controller {
     public function buildApiUrl() {
 
     }
+
+    public function redetect() {
+        $kid = trim($_POST['kid']);
+        if (!$kid) {
+            echo "failed";
+            exit;
+        }
+
+        $kwdMdl = D('Keyword');
+        $priceMdl = D('Price');
+        $data = array('is_detected' => 0, 'detect_times' => 0);
+
+        $kfilter = array('id' => $kid);
+        $kwdMdl->where($kfilter)->save($data);
+
+        $filter = array('kid' => $kid);
+        $priceMdl->where($filter)->delete();
+        echo "success";
+        exit;
+    }
 }

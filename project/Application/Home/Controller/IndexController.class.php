@@ -6,10 +6,13 @@ class IndexController extends Controller {
         if (!session('?user')) {
             $this->redirect('/login');    
         }
-        exit('aaa');
+        $this->display();
     }
 
     public function login() {
+        if (session('?user')) {
+            $this->redirect('/');
+        }
         if ($_POST) {
             if ($_POST['appkey'] && $_POST['appsecret']) {
                 $filter = array(

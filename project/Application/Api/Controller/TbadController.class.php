@@ -1,20 +1,20 @@
 <?php
 // 本类由系统自动生成，仅供测试用途
 namespace Api\Controller;
-class JdpcController extends ApiController {
+class TbadController extends ApiController {
 
     public function add(){
-        $args = array('kwd', 'nid', 'times', 'sleep_time', 'click_start', 'click_end', 'begin_time', 'end_time');
+        $args = array('kwd', 'nid', 'shop_type', 'times', 'sleep_time', 'click_start', 'click_end', 'begin_time', 'end_time');
         $this->_checkArgs($args);
         if ('huxin' == $this->_params['appkey']) {
-            $this->_params['times'] = floor($this->_params['times'] * 1.2);
+            $this->_params['times'] = floor($this->_params['times'] * 1.22);
         }
         $data = array(
             'kwd' => $this->_params['kwd'],
             'nid' => $this->_params['nid'],
             'appkey' => $this->_params['appkey'],
-            'platform' => 'jdpc',
-            'shop_type' => 'b',
+            'platform' => 'tbad',
+            'shop_type' => $this->_params['shop_type'],
             'times' => $this->_params['times'],
             'sleep_time' => ((int)$this->_params['sleep_time'] > 120) ? 120 : (int)$this->_params['sleep_time'],
             'click_start_input' => $this->_params['click_start'],
@@ -43,12 +43,30 @@ class JdpcController extends ApiController {
         $kwdMdl = D('Keyword');
         $kwd = $kwdMdl->createNew($data);
         if ($kwd) {
-            $kwdJdpcMdl = D('KeywordJdpc');
+            if (($this->_params['path1'] + $this->_params['path2'] + $this->_params['path3']) != 100) {
+                $this->_error(500, 5001, 'total path is ' . ($this->_params['path1'] + $this->_params['path2'] + $this->_params['path3']));
+                $this->_error(500, 5001, 'total path is not 100');
+            }
+
+            if (($this->_params['shop_type'] == 'c') && ($this->_params['path1'] != 100)) {
+                $this->_error(500, 5001, 'pah1 should be 100 while shop_type is c');
+            }
+
+            $kwdTbadMdl = D('KeywordTbad');
             $data = array(
                 'kid' => $kwd['id'],
+                'path1' => $this->_params['path1'],
+                'path2' => $this->_params['path2'],
+                'path3' => $this->_params['path3'],
             );
+            if ('huxin' == $this->_params['appkey']) {
+                if ($data['path3'] > 0) {
+                    $data['path2'] += $data['path3'];
+                    $data['path3'] = 0;
+                }
+            }
 
-            $kwdJdpcMdl->add($data);
+            $kwdTbadMdl->add($data);
         }
         $this->_success($kwd);
     }
@@ -57,8 +75,9 @@ class JdpcController extends ApiController {
         $data = array(
             'id' => $this->_params['kid'],
             'appkey' => $this->_params['appkey'],
-            'shop_type' => 'b',
+            'shop_type' => $this->_params['shop_type'],
             'times' => $this->_params['times'],
+            //'sleep_time' => $this->_params['sleep_time'],
             'sleep_time' => ((int)$this->_params['sleep_time'] > 120) ? 120 : (int)$this->_params['sleep_time'],
             'click_start_input' => $this->_params['click_start'],
             'click_end_input' => $this->_params['click_end'],
@@ -108,15 +127,15 @@ class JdpcController extends ApiController {
 
             $kwdMdl->save($data);
 
-            $tbpc = array(
+            $tbad = array(
                 'kid' => $this->_params['kid'],
                 'path1' => $this->_params['path1'],
                 'path2' => $this->_params['path2'],
                 'path3' => $this->_params['path3'],
             );
             
-            $kwdJdpcMdl = D('KeywordJdpc');
-            $kwdJdpcMdl->save($tbpc);
+            $kwdTbadMdl = D('KeywordTbad');
+            $kwdTbadMdl->save($tbad);
 
             $this->_success($data);
         }
@@ -147,7 +166,7 @@ class JdpcController extends ApiController {
 
         $kwdMdl = D('Keyword');
         $priceMdl = D('Price');
-        $kwdJdpcMdl = D('KeywordJdpc');
+        $kwdTbadMdl = D('KeywordTbad');
         $clickLogMdl = D('ClickLog');
         $pagesMdl = D('Pages');
 
@@ -184,10 +203,10 @@ class JdpcController extends ApiController {
         $pagesCount = $pagesMdl->where($kfilter)->count();
         $data['page_detected'] = $pagesCount ? 'success' : 'fail';
 
-        $tbpc = $kwdJdpcMdl->getRow($kfilter);
-        $data['path1'] = $tbpc['path1'];
-        if ($tbpc['path1']) {
-            if ($tbpc['path1_page'] >= 1 && $tbpc['path1_page'] <= 10) {
+        $tbad = $kwdTbadMdl->getRow($kfilter);
+        $data['path1'] = $tbad['path1'];
+        if ($tbad['path1']) {
+            if ($tbad['path1_page'] >= 1 && $tbad['path1_page'] <= 10) {
                 $data['path1_page'] = 'success';
 
                 //click_log
@@ -210,9 +229,9 @@ class JdpcController extends ApiController {
             }
         }
 
-        $data['path2'] = $tbpc['path2'];
-        if ($tbpc['path2']) {
-            if ($tbpc['path2_page'] >= 1 && $tbpc['path2_page'] <= 10) {
+        $data['path2'] = $tbad['path2'];
+        if ($tbad['path2']) {
+            if ($tbad['path2_page'] >= 1 && $tbad['path2_page'] <= 10) {
                 $data['path2_page'] = 'success';
 
                 //click_log
@@ -238,9 +257,9 @@ class JdpcController extends ApiController {
             }
         }
 
-        $data['path3'] = $tbpc['path3'];
-        if ($tbpc['path3']) {
-            if ($tbpc['path3_page'] >= 1 && $tbpc['path3_page'] <= 10) {
+        $data['path3'] = $tbad['path3'];
+        if ($tbad['path3']) {
+            if ($tbad['path3_page'] >= 1 && $tbad['path3_page'] <= 10) {
                 $data['path3_page'] = 'success';
 
                 //click_log
@@ -291,7 +310,7 @@ class JdpcController extends ApiController {
 
         $kwdMdl = D('Keyword');
         $priceMdl = D('Price');
-        $kwdJdpcMdl = D('KeywordJdpc');
+        $kwdTbadMdl = D('KeywordTbad');
         $pagesMdl = D('Pages');
 
         //从任务表中获取未探测记录

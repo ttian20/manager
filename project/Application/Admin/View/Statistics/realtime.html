@@ -144,7 +144,7 @@
                                                 <td><{$kwd.click_end}></td>
                                                 <td><{$kwd.times}></td>
                                                 <td><{$kwd.clicked_times}></td>
-                                                <td><{if $kwd.is_detected}>已探测<{else}><span class="text-danger">未探测</span><{/if}></td>
+                                                <td><{if $kwd.is_detected}>已探测<{else}><span class="text-danger">未探测</span><{/if}>&nbsp;&nbsp;<a class="redetect" data-id="<{$kwd.id}>">重探</a>&nbsp;&nbsp;<a href="#">日志</a></td>
                                             </tr>
                                             <{/foreach}>
                                         </tbody>
@@ -180,6 +180,19 @@
         <script type="text/javascript" src="js/DT_bootstrap.js"></script>
     </body>
 <script type="text/javascript">
+$(function() {
+    $(".redetect").click(function(){ 
+        $.ajax({
+            url: "/admin/keyword/redetect",
+            type: "POST",
+            data: "kid=" + $(this).attr('data-id'),
+            success: function(msg) {
+                alert(msg);
+            }
+        });
+        alert($(this).attr('data-id'));
+    });
+});
 function del(id, kwd) {
     if (confirm("确定要删除" + kwd + '吗?')) {
         return true;

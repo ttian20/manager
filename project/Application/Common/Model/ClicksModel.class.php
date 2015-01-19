@@ -12,8 +12,13 @@ class ClicksModel extends Model {
         return $rows;
     } 
 
-    public function getPager($filter, $pageNo, $pageSize, $orderBy) {
-        return $this->join('keyword ON keyword.id = clicks.kid')->where($filter)->order($orderBy)->page($pageNo, $pageSize)->select();
+    public function getPager($filter, $pageNo, $pageSize, $orderBy, $appkey = '') {
+        if ($appkey) {
+            return $this->join("keyword ON keyword.id = clicks.kid AND keyword.appkey = '{$appkey}'")->where($filter)->order($orderBy)->page($pageNo, $pageSize)->select();
+        }
+        else {
+            return $this->join('keyword ON keyword.id = clicks.kid')->where($filter)->order($orderBy)->page($pageNo, $pageSize)->select();
+        }
     }
 
     public function getClicks($filter, $offset, $limit) {
