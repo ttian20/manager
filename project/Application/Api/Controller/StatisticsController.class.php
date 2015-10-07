@@ -53,6 +53,7 @@ class StatisticsController extends ApiController {
                     'kid' => $v['id'],
                     'date' => $date,
                     'clicks' => $v['clicked_times'],
+                    'is_detected' => $v['is_detected'],
                 );
             }
         }

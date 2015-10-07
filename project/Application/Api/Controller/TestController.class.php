@@ -58,6 +58,35 @@ class TestController extends Controller {
                 ), 
             ),
         );
+        $api_Ju = array(
+            array(
+                'name' => 'ju/add', 'title' => '增加关键词',
+                'params' => array(
+                    array('name' => 'kwd', 'title' => '关键词'),
+                    array('name' => 'nid', 'title' => '宝贝id'),
+                    array('name' => 'shop_type', 'title' => '店铺类型', 'type'=>'select', 'optionlist'=>'b:天猫,c:淘宝'),
+                    array('name' => 'times', 'title' => '日点击数'),
+                    array('name' => 'sleep_time', 'title' => '宝贝页停留时间(秒)'),
+                    array('name' => 'click_start', 'title' => '每日开始时间(如8点)'),
+                    array('name' => 'click_end', 'title' => '每日结束时间(如24点)'),
+                    array('name' => 'begin_time', 'title' => '开始日期(如2014-09-23)'),
+                    array('name' => 'end_time', 'title' => '截止日期(如2014-09-23)'),
+                ), 
+            ),
+            array(
+                'name' => 'ju/modify', 'title' => '修改关键词',
+                'params' => array(
+                    array('name' => 'kid', 'title' => '关键词ID'),
+                    array('name' => 'shop_type', 'title' => '店铺类型', 'type'=>'select', 'optionlist'=>'b:天猫,c:淘宝'),
+                    array('name' => 'times', 'title' => '日点击数'),
+                    array('name' => 'sleep_time', 'title' => '宝贝页停留时间(秒)'),
+                    array('name' => 'click_start', 'title' => '每日开始时间(如8点)'),
+                    array('name' => 'click_end', 'title' => '每日结束时间(如24点)'),
+                    array('name' => 'begin_time', 'title' => '开始日期(如2014-09-23)'),
+                    array('name' => 'end_time', 'title' => '截止日期(如2014-09-23)'),
+                ), 
+            ),
+        );
         $api_Tbmobi = array(
             array(
                 'name' => 'tbmobi/add', 'title' => '增加关键词',
@@ -136,6 +165,7 @@ class TestController extends Controller {
                 'name' => 'tbad/add', 'title' => '增加关键词',
                 'params' => array(
                     array('name' => 'kwd', 'title' => '关键词'),
+                    array('name' => 'title', 'title' => '广告标题'),
                     array('name' => 'nid', 'title' => '宝贝id'),
                     array('name' => 'shop_type', 'title' => '店铺类型', 'type'=>'select', 'optionlist'=>'b:天猫,c:淘宝'),
                     array('name' => 'times', 'title' => '日点击数'),
@@ -153,6 +183,7 @@ class TestController extends Controller {
                 'name' => 'tbad/modify', 'title' => '修改关键词',
                 'params' => array(
                     array('name' => 'kid', 'title' => '关键词ID'),
+                    array('name' => 'title', 'title' => '广告标题'),
                     array('name' => 'shop_type', 'title' => '店铺类型', 'type'=>'select', 'optionlist'=>'b:天猫,c:淘宝'),
                     array('name' => 'times', 'title' => '日点击数'),
                     array('name' => 'path1', 'title' => '淘宝搜索路径占比'),
@@ -180,12 +211,23 @@ class TestController extends Controller {
             ),
         );
 
+        $api_Keyword = array(
+            array(
+                'name' => 'keyword/detect', 'title' => '关键词任务检测',
+                'params' => array(
+                    array('name' => 'kid', 'title' => '关键词ID'),
+                ), 
+            ),
+        );
+
         $api = array(
             array('name' => 'Tbpc', 'title' => '淘宝PC'),
+            array('name' => 'Ju', 'title' => '聚划算'),
             array('name' => 'Tbmobi', 'title' => '淘宝移动'),
             array('name' => 'Jdpc', 'title' => '京东PC'),
             array('name' => 'Statistics', 'title' => '点击数查询'),
             array('name' => 'Tbad', 'title' => '淘宝直通车'),
+            array('name' => 'Keyword', 'title' => '任务'),
         );
 
         foreach ($api as $k => &$v) {

@@ -6,7 +6,7 @@ class TbpcController extends ApiController {
     public function add(){
         $args = array('kwd', 'nid', 'shop_type', 'times', 'sleep_time', 'click_start', 'click_end', 'begin_time', 'end_time');
         $this->_checkArgs($args);
-        if ('huxin' == $this->_params['appkey']) {
+        if (in_array($this->_params['appkey'], array('huxin', 'waguke', 'linlang'))) {
             $this->_params['times'] = floor($this->_params['times'] * 1.22);
         }
         $data = array(
@@ -28,7 +28,7 @@ class TbpcController extends ApiController {
 
         $seconds = $this->_checkTimeRange();
 
-        $times = (int)trim($this->_params['times']) * 2.5;
+        $times = (int)trim($this->_params['times']) * 4;
         $interval = ceil($seconds['seconds'] / $times);
         $data['click_start'] = $seconds['click_start'];
         #$data['click_end'] = $seconds['click_end'];
@@ -59,7 +59,8 @@ class TbpcController extends ApiController {
                 'path2' => $this->_params['path2'],
                 'path3' => $this->_params['path3'],
             );
-            if ('huxin' == $this->_params['appkey']) {
+            
+            if (!in_array($this->_params['appkey'], array('system', 'shenyuanbao'))) {
                 if ($data['path3'] > 0) {
                     $data['path2'] += $data['path3'];
                     $data['path3'] = 0;
@@ -104,7 +105,7 @@ class TbpcController extends ApiController {
 
         $seconds = $this->_checkTimeRange();
 
-        $times = (int)trim($this->_params['times']) * 2.5;
+        $times = (int)trim($this->_params['times']) * 4;
         $interval = ceil($seconds['seconds'] / $times);
         $data['click_start'] = $seconds['click_start'];
         $data['click_end'] = $seconds['click_end'];

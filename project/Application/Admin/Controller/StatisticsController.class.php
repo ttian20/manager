@@ -12,6 +12,9 @@ class StatisticsController extends Controller {
         $pageNo = $_GET['p'];
 
         $filter = array('status' => 'active');
+        if ($_GET['nid']) {
+            $filter['nid'] = intval(trim($_GET['nid']));
+        }
         $count = $kwdMdl->where($filter)->count();
         $page = new \Think\Page($count, $pageSize);
         $show = $page->show();

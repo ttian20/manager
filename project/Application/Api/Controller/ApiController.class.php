@@ -31,6 +31,12 @@ class ApiController extends Controller {
             $this->_error(404, 1002, 'appkey not exists: ' . $appkey);            
         }
 
+/*
+        if ('waguke' == $appkey) {
+            $this->_error(502, 1002, 'your system looks like having some problems, please check it then call laoli');            
+        }
+        */
+
         $this->_appkey = $_appkey;
 
         $this->_checkIp();

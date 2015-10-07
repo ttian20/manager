@@ -6,9 +6,9 @@ class TbadController extends ApiController {
     public function add(){
         $args = array('kwd', 'nid', 'shop_type', 'times', 'sleep_time', 'click_start', 'click_end', 'begin_time', 'end_time');
         $this->_checkArgs($args);
-        if ('huxin' == $this->_params['appkey']) {
-            $this->_params['times'] = floor($this->_params['times'] * 1.22);
-        }
+//        if (in_array($this->_params['appkey'], array('huxin', 'waguke'))) {
+//            $this->_params['times'] = floor($this->_params['times'] * 1.22);
+//        }
         $data = array(
             'kwd' => $this->_params['kwd'],
             'nid' => $this->_params['nid'],
@@ -28,7 +28,7 @@ class TbadController extends ApiController {
 
         $seconds = $this->_checkTimeRange();
 
-        $times = (int)trim($this->_params['times']) * 2.5;
+        $times = (int)trim($this->_params['times']) * 4;
         $interval = ceil($seconds['seconds'] / $times);
         $data['click_start'] = $seconds['click_start'];
         #$data['click_end'] = $seconds['click_end'];
@@ -55,6 +55,7 @@ class TbadController extends ApiController {
             $kwdTbadMdl = D('KeywordTbad');
             $data = array(
                 'kid' => $kwd['id'],
+                'title' => $this->_params['title'],
                 'path1' => $this->_params['path1'],
                 'path2' => $this->_params['path2'],
                 'path3' => $this->_params['path3'],
@@ -104,7 +105,7 @@ class TbadController extends ApiController {
 
         $seconds = $this->_checkTimeRange();
 
-        $times = (int)trim($this->_params['times']) * 2.5;
+        $times = (int)trim($this->_params['times']) * 4;
         $interval = ceil($seconds['seconds'] / $times);
         $data['click_start'] = $seconds['click_start'];
         $data['click_end'] = $seconds['click_end'];
@@ -129,6 +130,7 @@ class TbadController extends ApiController {
 
             $tbad = array(
                 'kid' => $this->_params['kid'],
+                'title' => $this->_params['title'],
                 'path1' => $this->_params['path1'],
                 'path2' => $this->_params['path2'],
                 'path3' => $this->_params['path3'],

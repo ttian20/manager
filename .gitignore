@@ -1,2 +1,3 @@
 project/Runtime
+project/Public/*.log
 project/Application/Common/Conf/config.php

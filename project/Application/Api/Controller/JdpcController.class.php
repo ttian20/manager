@@ -6,9 +6,9 @@ class JdpcController extends ApiController {
     public function add(){
         $args = array('kwd', 'nid', 'times', 'sleep_time', 'click_start', 'click_end', 'begin_time', 'end_time');
         $this->_checkArgs($args);
-        if ('huxin' == $this->_params['appkey']) {
-            $this->_params['times'] = floor($this->_params['times'] * 1.2);
-        }
+//        if (in_array($this->_params['appkey'], array('huxin', 'waguke'))) {
+//            $this->_params['times'] = floor($this->_params['times'] * 1.2);
+//        }
         $data = array(
             'kwd' => $this->_params['kwd'],
             'nid' => $this->_params['nid'],
@@ -28,7 +28,7 @@ class JdpcController extends ApiController {
 
         $seconds = $this->_checkTimeRange();
 
-        $times = (int)trim($this->_params['times']) * 2.5;
+        $times = (int)trim($this->_params['times']) * 2;
         $interval = ceil($seconds['seconds'] / $times);
         $data['click_start'] = $seconds['click_start'];
         #$data['click_end'] = $seconds['click_end'];
@@ -85,7 +85,7 @@ class JdpcController extends ApiController {
 
         $seconds = $this->_checkTimeRange();
 
-        $times = (int)trim($this->_params['times']) * 2.5;
+        $times = (int)trim($this->_params['times']) * 2;
         $interval = ceil($seconds['seconds'] / $times);
         $data['click_start'] = $seconds['click_start'];
         $data['click_end'] = $seconds['click_end'];

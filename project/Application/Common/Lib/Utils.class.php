@@ -22,4 +22,16 @@ class Utils
         $msg = date("Y-m-d H:i:s") . "\n" . $msg;
         error_log($msg, 3, $file);
     }
+
+    public static function utf2gbk($data) {
+        if (is_string($data)) {
+            $data = iconv('UTF-8', 'GBK', $data);
+        }
+        elseif (is_array($data)) {
+            foreach ($data as $k => &$v) {
+                $v = self::utf2gbk($v);
+            }
+        }
+        return $data;
+    }
 }
