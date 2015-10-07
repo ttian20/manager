@@ -1,0 +1,169 @@
+<{extends '../Layouts/default.html'}>
+<{block "menu_left"}>
+                    <ul class="nav navbar-collapse collapse bootstrap-admin-navbar-side">
+                        <li>
+                            <a href="/report/statistics/realtime"><i class="glyphicon glyphicon-chevron-right"></i> 实时</a>
+                        </li>
+                        <li>
+                            <a href="/report/statistics/history"><i class="glyphicon glyphicon-chevron-right"></i> 历史</a>
+                        </li>
+                    </ul>
+<{/block}>
+<{block "content"}>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-header">
+                                <h1>点击统计</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="text-muted bootstrap-admin-box-title">关键词详情</div>
+                                </div>
+                                <div class="bootstrap-admin-panel-content">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>列表项</th>
+                                                <th>条目</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>关键词</td>
+                                                <td><{$keyword.kwd}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>宝贝ID</td>
+                                                <td><{$keyword.nid}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>店铺类型</td>
+                                                <td><{$keyword.shop_type}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>预设点击数</td>
+                                                <td><{$keyword.times}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>实际点击数</td>
+                                                <td><{$keyword.clicked_times}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>是否探测</td>
+                                                <td><{if !$keyword.is_detected}><span class="label label-danger"><{$keyword.is_detected}></span><{else}><{$keyword.is_detected}><{/if}></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="text-muted bootstrap-admin-box-title">商品信息探测</div>
+                                </div>
+                                <div class="bootstrap-admin-panel-content">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>列表项</th>
+                                                <th>条目</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>最低价格</td>
+                                                <td><{$price.min_price}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>最高价格</td>
+                                                <td><{$price.max_price}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>地区</td>
+                                                <td><{$price.region}></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div><{$page}></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="text-muted bootstrap-admin-box-title">路径分配记页面探测</div>
+                                </div>
+                                <div class="bootstrap-admin-panel-content">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>列表项</th>
+                                                <th>条目</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>淘宝搜索</td>
+                                                <td><{$tbpc.path1}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-价格</td>
+                                                <td><{if $tbpc.path1_price_from && $tbpc.path1_price_to}><{$tbpc.path1_price_from}> -- <{$tbpc.path1_price_to}><{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-地区</td>
+                                                <td><{$tbpc.path1_region}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索所在页面</td>
+                                                <td><{if $tbpc.path1}><{if ($tbpc.path1_page < 1) || ($tbpc.path1_page > 10)}><span class="label label-danger"><{$tbpc.path1_page}></span><{else}><{$tbpc.path1_page}><{/if}><{else}>-<{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜天猫</td>
+                                                <td><{$tbpc.path2}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-价格</td>
+                                                <td><{if $tbpc.path2_price_from && $tbpc.path2_price_to}><{$tbpc.path2_price_from}> -- <{$tbpc.path2_price_to}><{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-地区</td>
+                                                <td><{$tbpc.path2_region}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜天猫所在页面</td>
+                                                <td><{if $tbpc.path2}><{if ($tbpc.path2_page < 1) || ($tbpc.path2_page > 10)}><span class="label label-danger"><{$tbpc.path2_page}></span><{else}><{$tbpc.path2_page}><{/if}><{else}>-<{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>天猫搜索</td>
+                                                <td><{$tbpc.path3}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>淘宝搜索条件-价格</td>
+                                                <td><{if $tbpc.path3_price_from && $tbpc.path3_price_to}><{$tbpc.path3_price_from}> -- <{$tbpc.path3_price_to}><{/if}></td>
+                                            </tr>
+                                            <tr>
+                                                <td>天猫搜索所在页面</td>
+                                                <td><{if $tbpc.path3}><{if ($tbpc.path3_page < 1) || ($tbpc.path3_page > 10)}><span class="label label-danger"><{$tbpc.path3_page}></span><{else}><{$tbpc.path3_page}><{/if}><{else}>-<{/if}></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div><{$page}></div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+<{/block}>
